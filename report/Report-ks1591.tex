@@ -1,0 +1,86 @@
+% Report --- ks1591
+% include a brief discussion about how the limitation of leaf instances affects the performance of the decision tree algorithm.
+
+\documentclass[12pt,a4paper,twocolumn]{article}
+\usepackage{times} % times font
+\usepackage{mathptmx} % times font in maths
+% \usepackage{fullpage}
+\usepackage[top=0.55in, bottom=0.7in, left=0.7in, right=0.7in]{geometry}
+\usepackage{multirow} %in tables
+\usepackage{caption} % in tables
+\pagenumbering{gobble}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{lipsum}
+
+% \usepackage{amsmath}
+% \usepackage{hyperref}
+% \usepackage{graphicx}
+% \usepackage{subfigure}
+% \usepackage{indentfirst} % indent frst paragraph of section
+
+% \usepackage[usenames,dvipsnames]{color}
+
+% \newcommand{\ts}{\textsuperscript}
+
+\begin{document}
+
+\twocolumn[
+\begin{@twocolumnfalse}
+\begin{center}
+	\begin{large}
+	{\HRule \\[0.2cm]}
+	\textsc{Spiking Integrate and Fire model of neuron}
+	{\HRule \\[0.3cm]}
+	\end{large}
+
+	\begin{minipage}{ 0.44\textwidth }
+		\begin{flushleft}
+			Kacper \textbf{Sokol}\\
+			\texttt{ks1591} --- 3GGK1
+		\end{flushleft}
+	\end{minipage}
+	\begin{minipage}{ 0.44\textwidth }
+		\begin{flushright}
+			{COMS30127 $|$ Computational Neuroscience\\
+			Lab 1: Simulation of a single neuron\\[0.3cm]}
+		\end{flushright}
+	\end{minipage}
+\end{center}
+\end{@twocolumnfalse}
+] % \lipsum[1]~\\[0.4cm]
+\section*{The experiment}
+The purpose of this assignment is to compare performance of \textit{J48} classifier implemented in \texttt{WEKA} software package using \texttt{heart-train.arff} as a training data set and \texttt{heart-test.arff} to test produced classifier. All the settings of mentioned above classifier are default, but \textit{pruning} of a tree is disabled and the minimum number of instances per leaf ranges from $1$ to $4$ respectively for each performed test. \emph{Table:~\ref{tab:heart}} presents the results of classification.\\
+
+% here goes the table
+% rows are M= 1,2,3,4
+% Incorrectly Classified Instances in %
+% columns are test | training
+\begin{tabular}{c|cc}
+	\multirow{2}{*}{$M$} & \multicolumn{2}{|c}{Incorrectly Classified Instances in \%} \\
+					   & Training Set & Test Set \\
+	\hline
+	$1$ & $0.0000$ & $26.9231$ \\
+	$2$ & $5.7143$ & $16.1538$ \\
+	$3$ & $7.8571$ & $17.6923$ \\
+	$4$ & $9.2857$ & $19.2308$
+\end{tabular}
+\begin{tiny}
+\captionof{table}{J48 classifier used on heart data set. \\Where $M$ is "minNumObj". \label{tab:heart}} % \\[0.1cm]
+\end{tiny}
+
+\section*{Discussion of the results}
+While training the classifier with different minimum number of instances per leaf ($M$) allowed we can see no error made on the \textit{training} data with $M=1$. This \textit{"perfect"} classification is a result of allowing each leaf to have one or more instances. As the \textit{tree} algorithm is trying to train a classifier with best possible accuracy it causes \textbf{overfitting} (some instances have their own leaf despite being very similar to others like \emph{real} parameters--- big tree). This detrimental effect is confirmed as in the \textit{test} data set for $M=1$ the resulting performance is the worst out of 4 carried out experiments.\\
+When $M=2$ the results are the best. We get the \textit{lowest} error rate on \textit{test} set with reasonably low value of \textit{training} error. To be precise the latter value is lowest if we exclude the $0\%$ resulting from $M=1$.\\
+When considering next two results for $M=3$ and $M=4$ I spot growth of \textit{training} error rate corresponding to increase in allowed minimal number of instances per leaf. The phenomenon seems reasonable as for bigger values of $M$ we force classifier to built less complex, more general (smaller) tree what in a way corresponds to pruning procedure. Hence, the error rate increases as we are not able to put two same labeled instances that differ only in one or two parameters into separate leaves.\\
+Furthermore, in both cases our \textit{test} error rate also increases with greater value of parameter $M$ but is still lower than $26\%$ achieved for $M=1$. Presumably it is also the effect of more generalized structure of resulting tree.
+
+\section*{Conclusions}
+From the above results we may conclude that minimum number of instances per leaf $\mathbf{M=2}$ is \textbf{optimal}. Moreover, this observation supports default value of parameter $M$ equal to $2$ in \texttt{WEKA} \textit{J48} classifier settings.\\
+To support my overfitting thesis drawn for $M=1$ I carried out additional experiment where \textit{training} set was extended with \textit{test} data set instances to build a classifier. Then I used resulting tree to check its performance on \texttt{heart-test.arff} and achieved $0\%$ of incorrectly classified instances in both test and training. This result and cross-validation test that on \texttt{heart-train.arff} revealed $0\%$ of incorrectly classified training instances and $25\%$ of incorrectly classified cross-validated instances seem to be enough to assume that for $M=1$ the tree just memorizes the structure of the \textit{training} data and will perform poorly on unseen instances.\\
+To sum up, I investigated differences in behavior of \textit{J48} classifier for different settings of minimum number of instances per leaf. Based on above set of experiments I arrived at optimal solution of $M=2$ with least number of errors made on test data set and best performance on training set while disregarding case $M=1$ because of presented reasons.\\
+All the discussion presented assumes that class distribution in test and training sets is almost identical (both contain representative sample of true data).
+% \lipsum[1-5]
+%Compare number of nodes in each tree??
+\end{document}

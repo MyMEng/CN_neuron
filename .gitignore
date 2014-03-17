@@ -1,1 +1,6 @@
 # Nothing for the moment
+
+# LaTeX
+report/*.log
+report/*.aux
+report/*.pdf
