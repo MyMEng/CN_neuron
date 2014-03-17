@@ -13,8 +13,8 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage{lipsum}
+\usepackage{amsmath}
 
-% \usepackage{amsmath}
 % \usepackage{hyperref}
 % \usepackage{graphicx}
 % \usepackage{subfigure}
@@ -50,37 +50,85 @@
 \end{center}
 \end{@twocolumnfalse}
 ] % \lipsum[1]~\\[0.4cm]
-\section*{The experiment}
-The purpose of this assignment is to compare performance of \textit{J48} classifier implemented in \texttt{WEKA} software package using \texttt{heart-train.arff} as a training data set and \texttt{heart-test.arff} to test produced classifier. All the settings of mentioned above classifier are default, but \textit{pruning} of a tree is disabled and the minimum number of instances per leaf ranges from $1$ to $4$ respectively for each performed test. \emph{Table:~\ref{tab:heart}} presents the results of classification.\\
 
-% here goes the table
-% rows are M= 1,2,3,4
-% Incorrectly Classified Instances in %
-% columns are test | training
-\begin{tabular}{c|cc}
-	\multirow{2}{*}{$M$} & \multicolumn{2}{|c}{Incorrectly Classified Instances in \%} \\
-					   & Training Set & Test Set \\
-	\hline
-	$1$ & $0.0000$ & $26.9231$ \\
-	$2$ & $5.7143$ & $16.1538$ \\
-	$3$ & $7.8571$ & $17.6923$ \\
-	$4$ & $9.2857$ & $19.2308$
-\end{tabular}
-\begin{tiny}
-\captionof{table}{J48 classifier used on heart data set. \\Where $M$ is "minNumObj". \label{tab:heart}} % \\[0.1cm]
-\end{tiny}
+\section*{\texttt{Part 1}}
+Simulation of neuron based on \emph{Integrate and Fire} model:
+$$ \tau_m \frac{dV}{dt} = E_L - V + R_m I_e $$
+with parameters:\\
+$\tau_m = 10 \text{ [ms]}$~,~$E_L = V_{reset} = -70 \text{ [mV]}$~,\\
+$V_{th} = -40 \text{ [mV]}$~,~$R_m = 10 \text{ [M$\Omega$]}$~,\\
+$I_e = 3.1 \text{ [nA]}$~,~$DT = 1 \text{ [ms]}$~.
 
-\section*{Discussion of the results}
-While training the classifier with different minimum number of instances per leaf ($M$) allowed we can see no error made on the \textit{training} data with $M=1$. This \textit{"perfect"} classification is a result of allowing each leaf to have one or more instances. As the \textit{tree} algorithm is trying to train a classifier with best possible accuracy it causes \textbf{overfitting} (some instances have their own leaf despite being very similar to others like \emph{real} parameters--- big tree). This detrimental effect is confirmed as in the \textit{test} data set for $M=1$ the resulting performance is the worst out of 4 carried out experiments.\\
-When $M=2$ the results are the best. We get the \textit{lowest} error rate on \textit{test} set with reasonably low value of \textit{training} error. To be precise the latter value is lowest if we exclude the $0\%$ resulting from $M=1$.\\
-When considering next two results for $M=3$ and $M=4$ I spot growth of \textit{training} error rate corresponding to increase in allowed minimal number of instances per leaf. The phenomenon seems reasonable as for bigger values of $M$ we force classifier to built less complex, more general (smaller) tree what in a way corresponds to pruning procedure. Hence, the error rate increases as we are not able to put two same labeled instances that differ only in one or two parameters into separate leaves.\\
-Furthermore, in both cases our \textit{test} error rate also increases with greater value of parameter $M$ but is still lower than $26\%$ achieved for $M=1$. Presumably it is also the effect of more generalized structure of resulting tree.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/figure1.png}
+% \begin{tiny}
+\caption{Simulation of \emph{Spiking Integrate and Fire} neuron model.\label{fig:part1}}
+% \end{tiny}
+\vspace{0.4cm}
+\end{figure}
 
-\section*{Conclusions}
-From the above results we may conclude that minimum number of instances per leaf $\mathbf{M=2}$ is \textbf{optimal}. Moreover, this observation supports default value of parameter $M$ equal to $2$ in \texttt{WEKA} \textit{J48} classifier settings.\\
-To support my overfitting thesis drawn for $M=1$ I carried out additional experiment where \textit{training} set was extended with \textit{test} data set instances to build a classifier. Then I used resulting tree to check its performance on \texttt{heart-test.arff} and achieved $0\%$ of incorrectly classified instances in both test and training. This result and cross-validation test that on \texttt{heart-train.arff} revealed $0\%$ of incorrectly classified training instances and $25\%$ of incorrectly classified cross-validated instances seem to be enough to assume that for $M=1$ the tree just memorizes the structure of the \textit{training} data and will perform poorly on unseen instances.\\
-To sum up, I investigated differences in behavior of \textit{J48} classifier for different settings of minimum number of instances per leaf. Based on above set of experiments I arrived at optimal solution of $M=2$ with least number of errors made on test data set and best performance on training set while disregarding case $M=1$ because of presented reasons.\\
-All the discussion presented assumes that class distribution in test and training sets is almost identical (both contain representative sample of true data).
-% \lipsum[1-5]
-%Compare number of nodes in each tree??
+
+\section*{\texttt{Part 2}}
+\subsection*{\texttt{Part 2: a)}}
+\textbf{\large Finding attractor}\\
+To analytically compute minimum current $I_e$ required by neuron to produce a spike we set derivative to 0.\\
+$0=E_L-V^{\star} +R_mI_e$,\\
+$V^{\star} = E_L + R_mI_e$,\\
+and we need: $V^{\star} > V_{th}$ for neuron to fire,\\
+$E_L+R_mI_e > V_{th}$ hence,\\
+$I_e > \frac{V_{th} - E_L}{R_m}$\\
+With our parameters:\\
+$I_e > \frac{-40*10^{-3} - (-70)*10^{-3}}{10*10^6}$ hence:\\
+$I_e > 3 * 10^{-9}$.\\
+
+\subsection*{\texttt{Part 2: b)}}
+Simulating neuron with $I_e = 2.9 * 10^{-9}$ leads to behavior shown below.\\
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/figure2b.png}
+% \begin{tiny}
+\caption{Simulation of neuron with current $I_e$ being to small to cause spiking.\label{fig:part2b}}
+% \end{tiny}
+\vspace{0.4cm}
+\end{figure}
+
+\section*{\texttt{Part 3}}
+Simulation of neuron for currents ranging from $2 \text{[nA]}$ to $5 \text{[nA]}$ in increments of $0.1 \text{[nA]}$ with count of number of spikes produced for each step.\\
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/figure3.png}
+% \begin{tiny}
+\caption{Firing rate of neuron for given above range of currents.\label{fig:part3}}
+% \end{tiny}
+\vspace{0.4cm}
+\end{figure}
+
+\section*{\texttt{Part 4}}
+\textbf{\large Differences between \emph{excitatory} and \emph{inhibitory} synapses}
+
+\subsection*{\texttt{Part 4: a)}}
+In first case where synapses are \emph{excitatory} the spikes tend to synchronise. The neuron with excitatory synapse causes other neuron to be more likely to fire at the same time. Both neurons synchronise because they are interconnected so when first one fires it causes that the second one is more likely to fire and the other way around.\\
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/figure4a.png}
+% \begin{tiny}
+\caption{Simulation of two interconnected neurons with excitatory synapses.\label{fig:part4a}}
+% \end{tiny}
+\vspace{0.4cm}
+\end{figure}
+
+\subsection*{\texttt{Part 4: b)}}
+On contrary, with both synapses being \emph{inhibitory} the spiking tends to diverge. The inhibitory synapse causes connected neuron to be less likely to fire at the same time. Spikes of both neurons diverge as firing of first one causes the second one to be less likely to fire at the same time so at some point the time between firing of one and the other will converge to maximal possible value(spikes maximally distant of each other).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/figure4b.png}
+% \begin{tiny}
+\caption{Simulation of two interconnected neurons with inhibitory synapses.\label{fig:part4b}}
+% \end{tiny}
+\vspace{0.4cm}
+\end{figure}
 \end{document}
