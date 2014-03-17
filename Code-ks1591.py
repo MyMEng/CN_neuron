@@ -5,6 +5,8 @@
 import matplotlib.pyplot as plt
 from random import randint
 from math import exp
+from numpy import arange
+import numpy as np
 
 # Q1
 
@@ -151,9 +153,9 @@ p2, = plt.plot(time,Vb,'r')
 plt.xlabel("time 't' in seconds")
 plt.ylabel("voltage 'V' in Volts")
 plt.title("Spiking Integrate-and-Fire Model \n of two neurons synapticly connected \n with excitatory synapses")
-legend([p2, p1], ["Neuron B", "Neuron A"])
+plt.legend([p2, p1], ["Neuron B", "Neuron A"])
 plt.axis([ 0, 1, -0.085, -0.050 ])
-subplots_adjust(top=0.8)
+plt.subplots_adjust(top=0.8)
 plt.savefig("figure4a.png", dpi=300, pad_inches=0.2)
 plt.show()
 
@@ -190,9 +192,9 @@ p2, = plt.plot(time,Vb,'r')
 plt.xlabel("time 't' in seconds")
 plt.ylabel("voltage 'V' in Volts")
 plt.title("Spiking Integrate-and-Fire Model \n of two neurons synapticly connected \n with inhibitory synapses")
-legend([p2, p1], ["Neuron B", "Neuron A"])
+plt.legend([p2, p1], ["Neuron B", "Neuron A"])
 plt.axis([ 0, 1, -0.085, -0.050 ])
-subplots_adjust(top=0.8)
+plt.subplots_adjust(top=0.8)
 plt.savefig("figure4b.png", dpi=300, pad_inches=1)
 plt.show()
 
