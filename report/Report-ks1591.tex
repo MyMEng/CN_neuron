@@ -65,7 +65,7 @@ $I_e = 3.1 \text{ [nA]}$~,~$DT = 1 \text{ [ms]}$~.
 % \begin{tiny}
 \caption{Simulation of \emph{Spiking Integrate and Fire} neuron model.\label{fig:part1}}
 % \end{tiny}
-\vspace{0.4cm}
+\vspace{0.2cm}
 \end{figure}
 
 
@@ -80,10 +80,10 @@ $E_L+R_mI_e > V_{th}$ hence,\\
 $I_e > \frac{V_{th} - E_L}{R_m}$\\
 With our parameters:\\
 $I_e > \frac{-40*10^{-3} - (-70)*10^{-3}}{10*10^6}$ hence:\\
-$I_e > 3 * 10^{-9}$.\\
+$I_e > 3 * 10^{-9}  \text{ [A]} = 3  \text{ [nA]}$.\\
 
 \subsection*{\texttt{Part 2: b)}}
-Simulating neuron with $I_e = 2.9 * 10^{-9}$ leads to behavior shown below.\\
+Simulating neuron with $I_e = 2.9 * 10^{-9}  \text{ [A]}$ leads to behavior shown below.\\
 
 \begin{figure}[htbp]
 \centering
@@ -91,18 +91,18 @@ Simulating neuron with $I_e = 2.9 * 10^{-9}$ leads to behavior shown below.\\
 % \begin{tiny}
 \caption{Simulation of neuron with current $I_e$ being to small to cause spiking.\label{fig:part2b}}
 % \end{tiny}
-\vspace{0.4cm}
+\vspace{0.2cm}
 \end{figure}
 
 \section*{\texttt{Part 3}}
 Simulation of neuron for currents ranging from $2 \text{[nA]}$ to $5 \text{[nA]}$ in increments of $0.1 \text{[nA]}$ with count of number of spikes produced for each step.\\
-\begin{figure}[htbp]
+\begin{figure}[phtb]
 \centering
-\includegraphics[width=0.5\textwidth]{figures/figure3.png}
+\includegraphics[width=0.47\textwidth]{figures/figure3.png}
 % \begin{tiny}
 \caption{Firing rate of neuron for given above range of currents.\label{fig:part3}}
 % \end{tiny}
-\vspace{0.4cm}
+\vspace{0.2cm}
 \end{figure}
 
 \section*{\texttt{Part 4}}
@@ -117,7 +117,7 @@ In first case where synapses are \emph{excitatory} the spikes tend to synchronis
 % \begin{tiny}
 \caption{Simulation of two interconnected neurons with excitatory synapses.\label{fig:part4a}}
 % \end{tiny}
-\vspace{0.4cm}
+\vspace{0.2cm}
 \end{figure}
 
 \subsection*{\texttt{Part 4: b)}}
@@ -129,6 +129,6 @@ On contrary, with both synapses being \emph{inhibitory} the spiking tends to div
 % \begin{tiny}
 \caption{Simulation of two interconnected neurons with inhibitory synapses.\label{fig:part4b}}
 % \end{tiny}
-\vspace{0.4cm}
+\vspace{0.2cm}
 \end{figure}
 \end{document}

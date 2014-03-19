@@ -74,8 +74,9 @@ plt.show()
 # Q3
 
 # Calculate currents
-currents = arange( 2 * 10**-9, 5 * 10**-9, step=0.1 * 10**-9 )
+currents = arange( 2, 5, step=0.1 )
 currents = np.append(currents, 5)
+currents[:] = [ x* 10**-9 for x in currents ]
 
 # Simulate spiking
 cSpike = []
@@ -91,13 +92,14 @@ for c in currents :
             spikes += 1
     cSpike.append( spikes )
 
+
 # Print results
 plt.figure(3)
 plt.plot(currents,cSpike)
 plt.xlabel("current 'Ie' in Ampers")
 plt.ylabel("number of spikes")
 plt.title('Dependance between Input Current and Spiking Rate')
-plt.axis([ -0.5, 5.5, -100, 1100 ])
+plt.axis([ 1.5*10**-9, 5.5*10**-9, -10, 120 ])
 plt.savefig("figure3.png", dpi=300, pad_inches=0.2)
 plt.show()
 
